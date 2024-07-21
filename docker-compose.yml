@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  secure-coding-java:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DEBUG_PORT=9090
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql-data:
