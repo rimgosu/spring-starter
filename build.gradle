@@ -1,39 +1,53 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.4.3'
-	id 'io.spring.dependency-management' version '1.1.6'
+    id 'java'
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'com.clrobur'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-	runtimeOnly 'mysql:mysql-connector-java'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	
-	// Swagger dependencies
-	implementation 'org.springdoc:springdoc-openapi-ui:1.5.9'
-	implementation 'org.springdoc:springdoc-openapi-data-rest:1.5.9'
-	implementation 'org.springdoc:springdoc-openapi-security:1.5.9'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation 'io.github.classgraph:classgraph:4.8.137' // classgraph 최신 버전으로 업데이트
+    implementation 'org.webjars:webjars-locator-core:0.50' // 필요한 경우 이 버전도 최신으로 변경 가능
+    runtimeOnly 'mysql:mysql-connector-java'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    // Swagger dependencies
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.9'
+    implementation 'org.springdoc:springdoc-openapi-data-rest:1.5.9'
+    implementation 'org.springdoc:springdoc-openapi-security:1.5.9'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+bootJar {
+    archiveBaseName = 'app'
+    archiveVersion = '0.1.0'
+    destinationDirectory = file("$buildDir/libs")
+}
+
+allprojects {
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
 }
